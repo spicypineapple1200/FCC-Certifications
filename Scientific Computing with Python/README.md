@@ -8,9 +8,9 @@ Certifiation will be granted when all 5 are done.
 
 ***Arithmetic Formatter (Completed)***
 
-*Time Calculator	(In Progress)*
+***Time Calculator	(Completed)***
 
-Budget App
+*Budget App	(In Progress)*
 
 Polygon Area Calculator
 
