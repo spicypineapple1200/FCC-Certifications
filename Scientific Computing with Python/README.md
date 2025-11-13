@@ -14,7 +14,7 @@ Certifiation will be granted when all 5 are done.
 
 Polygon Area Calculator
 
-Probability Calculator
+*Probability Calculator	(In Progress)*
 
 ****
 
