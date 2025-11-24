@@ -33,52 +33,47 @@ class Category:
         num = int((30-int(len(self.name)))/2)
         output = ('*'*num)+(self.name)+('*'*num)
         
-        item1_spacing = 30-len('initial deposit')-len(str(f"{self.ledger[0]['amount']:.2f}"))
-        item1 = '\ninitial deposit'+(' '*item1_spacing)+str(f"{self.ledger[0]['amount']:.2f}")
-        output+=item1
-        
-        if self.ledger[1:]:
-            for item in self.ledger[1:]:
-                description = item['description'][:23]
-                spacing = 30-len(description)-len(f"{item['amount']:.2f}")
-                addition = description+(' '*spacing)+f"{item['amount']:.2f}"
-                output+='\n'+addition
-                pass
+        for item in self.ledger:
+            description = item['description'][:23]
+            spacing = 30-len(description)-len(f"{item['amount']:.2f}")
+            addition = description+(' '*spacing)+f"{item['amount']:.2f}"
+            output+='\n'+addition
+            pass
         # result_spacing = 
         output += f'\nTotal: {self.get_balance():.2f}'
         return output
     
 def create_spend_chart(categories):
-    pass
+    output = "Percentage spent by category\n"
+    percentages = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]
+    
+    max_length = len(percentages)
+    name_length = 0
+    names = []
+    for item in categories:
+        if len(item.name) > name_length:
+            name_length = len(item.name)
+    max_length+=(1+name_length)
+    
+    for count in range(max_length):
+        if count < len(percentages):
+            output+=((" "*(4-len(str(percentages[count]))))+str(percentages[count])+'|\n')
+        elif count == len(percentages):
+            output+=('-'*3)+'\n'
+        else:
+            output+='space\n'
+    return output
 
 food = Category('Food')
 food.deposit(1000, 'deposit')
-food.deposit(500, 'deposit')
+food.withdraw(10.15, 'groceries')
+food.withdraw(15.89, 'restaurant and more food for dessert')
 clothing = Category('Clothing')
-clothing.deposit(1000, 'deposit')
-food.transfer(500, clothing)
-
+food.transfer(50, clothing)
 print(food)
-print("\n\n")
-print(clothing)
+print('\n\n')
 
-# print(f'{food.get_balance()}\n{food}\n\n{clothing.get_balance()}\n{clothing}\n')
-
-# food.transfer(1999, clothing)
-
-# print(f'{food.get_balance()}\n{food}\n\n{clothing.get_balance()}\n{clothing}\n')
-
-# food = Category('Food')
-# food.deposit(1000, 'deposit')
-# food.withdraw(10.15, 'groceries')
-# food.withdraw(15.89, 'restaurant and more food for dessert')
-# clothing = Category('Clothing')
-# food.transfer(50, clothing)
-# print(food)
-
-
-# item = '*************Food*************\ninitial deposit        1000.00\ngroceries               -10.15\nrestaurant and more foo -15.89\nTransfer to Clothing    -50.00\nTotal: 923.96'
-# print(item)
+print(create_spend_chart([food, clothing]))
 
 # *************Food*************
 # initial deposit        1000.00
@@ -89,17 +84,8 @@ print(clothing)
 
 
 
-# class MyClass:
-#     def __init__(self, health, mana, stamina):
-#         self.health = health
-#         self.mana = mana
-#         self.stamina = stamina
 
-# warrior = MyClass(100, 10, 50)
-# mage = MyClass(25, 100, 40)
-# archer = MyClass(50, 30, 100)
 
-# print(archer.health)
 
 
 
