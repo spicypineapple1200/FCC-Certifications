@@ -18,34 +18,55 @@ class Category:
             total += entry["amount"]
         return total
     
-    def transfer(self, amount, target_category):
+    def transfer(self, amount, target):
         if self.check_funds(amount):
-            self.withdraw(amount, f"Transfer from {self.name}")
-            target_category.deposit(amount, f"Transfer to {target_category.name}")
+            self.withdraw(amount, f"Transfer to {target.name}")
+            target.deposit(amount, f"Transfer from {self.name}")
             return True
         else:
-            target_category.ledger.append({"amount": 0, "description": f"Attempted transfer from {self.name}. No funds received."})
             return False
     
     def check_funds(self, amount):
         return amount <= self.get_balance()
     
     def __str__(self):
-        return f'{self.ledger}'
+        num = int((30-int(len(self.name)))/2)
+        output = ('*'*num)+(self.name)+('*'*num)
+        
+        item1_spacing = 30-len('initial deposit')-len(str(f"{self.ledger[0]['amount']:.2f}"))
+        item1 = '\ninitial deposit'+(' '*item1_spacing)+str(f"{self.ledger[0]['amount']:.2f}")
+        output+=item1
+        
+        if self.ledger[1:]:
+            for item in self.ledger[1:]:
+                description = item['description'][:23]
+                spacing = 30-len(description)-len(f"{item['amount']:.2f}")
+                addition = description+(' '*spacing)+f"{item['amount']:.2f}"
+                output+='\n'+addition
+                pass
+        # result_spacing = 
+        output += f'\nTotal: {self.get_balance():.2f}'
+        return output
     
 def create_spend_chart(categories):
     pass
 
 food = Category('Food')
 food.deposit(1000, 'deposit')
+food.deposit(500, 'deposit')
 clothing = Category('Clothing')
 clothing.deposit(1000, 'deposit')
+food.transfer(500, clothing)
 
-print(f'{food.get_balance()}\n{food}\n\n{clothing.get_balance()}\n{clothing}\n')
+print(food)
+print("\n\n")
+print(clothing)
 
-food.transfer(1999, clothing)
+# print(f'{food.get_balance()}\n{food}\n\n{clothing.get_balance()}\n{clothing}\n')
 
-print(f'{food.get_balance()}\n{food}\n\n{clothing.get_balance()}\n{clothing}\n')
+# food.transfer(1999, clothing)
+
+# print(f'{food.get_balance()}\n{food}\n\n{clothing.get_balance()}\n{clothing}\n')
 
 # food = Category('Food')
 # food.deposit(1000, 'deposit')
