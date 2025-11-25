@@ -51,29 +51,44 @@ def create_spend_chart(categories):
     name_length = 0
     names = []
     for item in categories:
+        names.append(item.name)
         if len(item.name) > name_length:
             name_length = len(item.name)
     max_length+=(1+name_length)
     
-    for count in range(max_length):
+    for i in categories:
+        print(i.ledger)
+    print(names)
+    
+    for count in range(len(percentages)):
         if count < len(percentages):
             output+=((" "*(4-len(str(percentages[count]))))+str(percentages[count])+'|\n')
         elif count == len(percentages):
             output+=('-'*3)+'\n'
-        else:
-            output+='space\n'
+        else:pass
+    
+    for char_tuple in zip(*names):
+        # Join the characters in the tuple into a single string for printing
+        vertical_line = (" "*4).join(char_tuple)
+        print(vertical_line)
     return output
 
 food = Category('Food')
 food.deposit(1000, 'deposit')
-food.withdraw(10.15, 'groceries')
+food.withdraw(5.15, 'groceries')
 food.withdraw(15.89, 'restaurant and more food for dessert')
 clothing = Category('Clothing')
+clothing.deposit(100, 'deposit')
+clothing.withdraw(5.15, 'groceries')
+clothing.withdraw(65.89, 'restaurant and more food for dessert')
 food.transfer(50, clothing)
+
 print(food)
 print('\n\n')
-
+print(clothing)
+print('\n\n')
 print(create_spend_chart([food, clothing]))
+
 
 # *************Food*************
 # initial deposit        1000.00
